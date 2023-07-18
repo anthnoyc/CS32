@@ -1,0 +1,146 @@
+﻿IMPLEMENTATION
+For my linked list implementation, I decided to use a dummy node and a circular linked list in order to make it easier with dealing with the edge cases. Therefore, my list will have one dummy node when it is empty and the list will point back towards the head pointer at the end. There is no tail pointer. Each node has a value, next, and previous pointer. 
+
+
+PSEUDOCODE
+Constructor
+* Create a dummy node, with zero items and a head pointer where the next and previous pointers point to the dummy node. All pointers point to the dummy node
+Destructor
+* create a temporary node pointer to delete through the list without losing the memory addresses of the pointers. Delete through the nodes as long as it is not the head pointer
+* Then delete the head pointer
+Copy constructor
+* need two pointers, one that points to the original list and another that creates the new nodes. 
+* create a new head pointer using the dummy node.
+* If the list is empty, then point prev and head to dummy.
+* loop through the other list and copy values, creating new nodes for new values.
+Assignment operator
+* create a temporary sequence using the right hand side and copy constructor, then swap them using the swap function created
+Swap
+* swap the head pointers, swap the size of the sequences.
+Insert ( position argument)
+* have two pointers for the list, one that is ahead of the other
+* if there are no items, then add it to the beginning, so right after the head pointer
+* loop through the list until you reach the position. once you reach the position to input it, then input the new nodes and change the pointers using the ahead pointer and the current pointer (which will be before the input pointer)
+Insert (no position argument)
+* Loop through the list until you reach the right value, then use the other input function and use the position of this value
+erase function
+* three pointers, one that is ahead, one that is the object to be deleted, and the pointer previous to the one to be deleted.
+* loop through until the position is reached, then delete that object using the deleted pointer, then assign the ahead previous to the pointer before and vice versa.
+Remove
+* uses the erase function and erases once the value is found in the data after looping through it. 
+* a counter goes up
+* once the pointer reaches the head pointer, then break out of the loop
+Concat reverse
+* three conditions
+* seq1 is empty
+   * reverse and input seq2
+   * do this by starting at the end and inserting this value into a temporary sequence which will be assigned to the result sequence
+* seq2 is empty
+   * same as above, but reverse and input seq 1
+* seq1 and seq2 have stuff
+   * first reverse the values in sequence 2, then insert it into the temporary value
+   * then using the size of sequence 2, use sequence 1 reversing and insert it into the temporary sequence at position (seq2.size() + i)
+   * then assign this to result
+Subsequence
+* loop through to get the values of sequence1 and compare it to seq2 first value.
+* if there is a match, then check the next value with another loop, checking each value until the size no longer matches, return the value of the first location, if there is no match then break out
+
+
+TEST CASES
+Sequence ss;
+        assert(ss.size() == 0);
+        assert(ss.empty() == true);
+        assert(ss.erase(0) == false);
+        ItemType value;
+        assert(ss.get(0, value) == false);
+        assert(ss.remove("aa") == 0);
+        assert(ss.set(0, "aa") == false);
+        assert(ss.insert(0, "aa") == 0); // a
+        assert(ss.insert(0, "cc") == 0); // b a
+        assert(ss.size() == 2);
+        assert(ss.empty() == false);
+        assert(ss.insert("dd") == 2); // b a c
+    
+        assert(ss.insert("aa") == 0); // a b a c
+    //ss.dump();
+        assert(ss.erase(0) == true); // b a c
+        ItemType x;
+        assert(ss.get(0, x) && x == "cc");
+    //    ss.dump();
+        assert(ss.remove("aa") == 1); // b c
+    //    ss.dump();
+        assert(ss.set(0, "aa") == true); // a c
+    //    ss.dump();
+        assert(ss.find("aa") == 0);
+        assert(ss.find("cc") == -1);
+The test cases above check to make sure that the implementation of the linked list and the functions from before are working
+    
+        Sequence ee;
+    //    ee.dump();
+    //    ss.dump();
+    //    ee.swap(ss);
+    //    ee.dump();
+    //    ss.dump();
+    //    ee.swap(ss);
+        assert(ee.insert(0, "aa") == 0); // a
+        assert(ee.insert(1, "cc") == 1); // a b
+        assert(ee.insert(2, "dd") == 2); // a b c
+    //    ee.dump();
+        ee.swap(ss);
+check the swap function
+        // ee: a c
+        // ss: a b c
+        //ee.dump();
+        //ss.dump();
+        assert(ee.size() == 2);
+        assert(ss.size() == 3);
+        
+        assert(subsequence(ss, ee) == -1);
+        assert(ss.remove("cc") == 1); // ss: a c
+    //    ss.dump(); // a c
+    //    ee.dump(); // a c
+        assert(subsequence(ss, ee) == 0);
+        assert(ss.insert(2, "cc") == 2);
+        assert(ee.insert(1, "cc") == 1);
+        assert(ee.insert(2, "dd") == 2);
+    //    ss.dump();
+    //    ee.dump();
+        assert(subsequence(ss, ee) == -1);
+        Sequence a;
+        Sequence b;
+        assert(subsequence(a, b) == -1);
+        assert(a.insert(0, "aa") == 0);
+        assert(subsequence(a, b) == -1);
+        assert(subsequence(b, a) == -1);
+        assert(b.insert(0, "aa") == 0);
+    //    a.dump();
+    //    b.dump();
+        assert(subsequence(a, b) == 0);
+the functions above check if the subsequence function works properly
+        
+        Sequence c;
+        Sequence d;
+        Sequence result;
+        assert(c.insert(0, "aa") == 0);
+        assert(c.insert(1, "cc") == 1);
+        assert(c.insert(2, "dd") == 2);
+        
+        assert(d.insert(0, "1") == 0);
+        assert(d.insert(1, "2") == 1);
+        assert(d.insert(2, "3") == 2);
+        c.dump();
+        d.dump();
+        concatReverse(c, d, result);
+        result.dump();
+        Sequence e = c;
+        c.dump();
+        e.dump();
+        concatReverse(c, e, result);
+        result.dump();
+        
+        Sequence f = c;
+        c.dump();
+        f.dump();
+        concatReverse(c, d, f);
+        f.dump();
+the steps above check for if the sequence concatreverse does the proper steps
